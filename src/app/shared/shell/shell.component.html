@@ -1,0 +1,51 @@
+<mat-sidenav-container class="sidenav-container">
+    <!-- SIDENAV -->
+    <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+        [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="false">
+        <mat-toolbar>Menu</mat-toolbar>
+        <mat-nav-list>
+            <div *ngIf="afAuth.authState | async as user; else showNavLogin">
+                <a mat-list-item routerLink="/login" (click)="afAuth.auth.signOut()">Logout</a>
+            </div>
+            <ng-template #showNavLogin>
+                <a mat-list-item routerLink="/login" (click)="drawer.close()">Login</a>
+            </ng-template>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <!-- TOP TOOLBAR-->
+        <mat-toolbar>
+            <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
+                *ngIf="isHandset$ | async">
+
+                <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+            </button>
+            <span class="logo" routerLink="/">MainTitleLogo</span>
+
+            <span class="fill-space"></span>
+            <div *ngIf="!(isHandset$ | async)">
+                <div *ngIf="afAuth.authState | async as user; else showHeaderLogin">
+                    <a mat-button routerLink="/login" (click)="afAuth.auth.signOut()">Logout</a>
+                </div>
+                <ng-template #showHeaderLogin>
+                    <a mat-button routerLink="/login">Login</a>
+                </ng-template>
+            </div>
+            <!-- DROPDOWN MENU -->
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+
+            <mat-menu #menu="matMenu">
+                <a mat-menu-item routerLink="/">
+                    <span>A menu</span>
+                </a>
+            </mat-menu>
+        </mat-toolbar>
+
+        <!-- TRANSCLUSION -->
+        <ng-content></ng-content>
+
+
+    </mat-sidenav-content>
+</mat-sidenav-container>
