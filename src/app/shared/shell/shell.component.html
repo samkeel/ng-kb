@@ -6,6 +6,7 @@
         <mat-nav-list>
             <div *ngIf="afAuth.authState | async as user; else showNavLogin">
                 <a mat-list-item routerLink="/login" (click)="afAuth.auth.signOut()">Logout</a>
+                <a mat-list-item routerLink="/wik" (click)="drawer.close()">Wiki</a>
             </div>
             <ng-template #showNavLogin>
                 <a mat-list-item routerLink="/login" (click)="drawer.close()">Login</a>
@@ -25,6 +26,7 @@
             <span class="fill-space"></span>
             <div *ngIf="!(isHandset$ | async)">
                 <div *ngIf="afAuth.authState | async as user; else showHeaderLogin">
+                    <a mat-button routerLink="/wik">Wiki</a>
                     <a mat-button routerLink="/login" (click)="afAuth.auth.signOut()">Logout</a>
                 </div>
                 <ng-template #showHeaderLogin>
